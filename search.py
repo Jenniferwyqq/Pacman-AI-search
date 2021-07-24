@@ -126,7 +126,7 @@ def depthFirstSearch(problem):
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-     openState = util.Queue()
+    openState = util.Queue()
     closeState = []
     startState = problem.getStartState()
     startNode = (startState, [], 0)  # tuples
