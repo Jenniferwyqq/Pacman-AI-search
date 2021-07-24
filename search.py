@@ -87,12 +87,82 @@ def depthFirstSearch(problem):
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    openState = util.Stack()
+    closeState = []
+    startState = problem.getStartState()
+    # print("INIT= ", startState)
+    startNode = (startState, [])  # tuples
+    openState.push(startNode)
+
+    # print(" openState: ", openState)
+    # while open is not empty
+    while not openState.isEmpty():
+        # remove first in from open, call it X
+        x, actions = openState.pop()
+        # if X is a goal
+        if problem.isGoalState(x):
+            # print("SUCCESS")
+            # return SUCCESS
+            # print(actions)
+            return actions
+        # else
+        else:
+            # generate children of X
+            successor = problem.getSuccessors(x)
+            # put X on closed
+            closeState.append(x)
+            # discard children of X if already on open or closed
+            for childSuccessor, childAction, childStepCost in successor:
+                # pop remaining children
+                if (childSuccessor, childAction not in openState.list) and (childSuccessor not in closeState):
+                    newAction = actions + [childAction]
+                    currentNode = (childSuccessor, newAction)
+                    # print(actions)
+                    openState.push(currentNode)
+                    
+      
+    # return FAIL
+    return actions
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+     openState = util.Queue()
+    closeState = []
+    startState = problem.getStartState()
+    startNode = (startState, [], 0)  # tuples
+    openState.push(startNode)
+
+    # print(" openState: ", openState)
+    # while open is not empty
+    while not openState.isEmpty():
+        # remove first in from open, call it X
+        x, actions, cost = openState.pop()
+        # print("x= ", x, "   action= ", actions)
+        # if X is a goal
+        if (x, actions, cost not in openState.list) and (x not in closeState):
+        #if (childSuccessor, childAction, childStepCost not in openState.list) and (childSuccessor not in closeState):
+
+            if problem.isGoalState(x):
+                # print("SUCCESS")
+                return actions
+            # else
+            else:
+                # generate children of X
+                successor = problem.getSuccessors(x)
+                # put X on closed
+                closeState.append(x)
+                # discard children of X if already on open or closed
+                for childSuccessor, childAction, childStepCost in successor:
+                     # pop remaining children
+                    # if (childSuccessor not in closeState):
+                    newAction = actions + [childAction]
+                    newCost = cost + childStepCost
+                    currentNode = (childSuccessor, newAction, newCost)
+                    # print(actions)
+                    openState.push(currentNode)
+
+    # return FAIL
+    return actions
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
