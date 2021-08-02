@@ -131,37 +131,21 @@ def breadthFirstSearch(problem):
     startState = problem.getStartState()
     startNode = (startState, [], 0)  # tuples
     openState.push(startNode)
+    tmpaction = []
 
-    # print(" openState: ", openState)
-    # while open is not empty
     while not openState.isEmpty():
-        # remove first in from open, call it X
         x, actions, cost = openState.pop()
-        # print("x= ", x, "   action= ", actions)
-        # if X is a goal
-        if (x, actions, cost not in openState.list) and (x not in closeState):
-        #if (childSuccessor, childAction, childStepCost not in openState.list) and (childSuccessor not in closeState):
-
+        if ((x, actions, cost) not in openState.list) and (x not in closeState):
             if problem.isGoalState(x):
-                # print("SUCCESS")
-                return actions
-            # else
+                return tmpaction + actions
             else:
-                # generate children of X
                 successor = problem.getSuccessors(x)
-                # put X on closed
                 closeState.append(x)
-                # discard children of X if already on open or closed
                 for childSuccessor, childAction, childStepCost in successor:
-                     # pop remaining children
-                    # if (childSuccessor not in closeState):
                     newAction = actions + [childAction]
                     newCost = cost + childStepCost
                     currentNode = (childSuccessor, newAction, newCost)
-                    # print(actions)
                     openState.push(currentNode)
-
-    # return FAIL
     return actions
 
 def uniformCostSearch(problem):
